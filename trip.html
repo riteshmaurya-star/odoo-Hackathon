@@ -1,0 +1,714 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TravelLoop Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+    --primary:#1A2A6C;
+    --accent:#F24E1E;
+    --sky:#00D2FF;
+    --text-dark:#2D3436;
+    --background:#F4F7FB;
+    --card-bg:rgba(255,255,255,0.82);
+    --shadow:0 10px 35px rgba(26,42,108,0.10);
+    --shadow-lg:0 20px 60px rgba(26,42,108,0.18);
+    --radius:24px;
+    --ff-display:'Playfair Display', serif;
+    --ff-body:'DM Sans', sans-serif;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:var(--ff-body);
+
+    background:
+        radial-gradient(circle at top left,
+        rgba(0,210,255,0.08),
+        transparent 30%),
+
+        radial-gradient(circle at bottom right,
+        rgba(242,78,30,0.08),
+        transparent 35%),
+
+        linear-gradient(135deg,#dfe6ee 0%, #cfd8e3 100%);
+
+    color:var(--text-dark);
+
+    min-height:100vh;
+}
+
+.page{
+    max-width:1300px;
+    margin:auto;
+    padding:2rem;
+}
+
+h1,h2,h3{
+    font-family:var(--ff-display);
+}
+
+/* NAVBAR */
+
+.nav{
+    position:sticky;
+    top:0;
+    z-index:999;
+    background:rgba(255,255,255,0.72);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,0.28);
+}
+
+.nav-inner{
+    max-width:1300px;
+    margin:auto;
+    padding:18px 2rem;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    font-size:1.8rem;
+    font-weight:700;
+    color:var(--primary);
+}
+
+.logo span{
+    color:var(--accent);
+}
+
+.nav-links{
+    display:flex;
+    gap:1rem;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:var(--text-dark);
+    font-weight:500;
+}
+
+/* BUTTON */
+
+.btn{
+    border:none;
+    cursor:pointer;
+    padding:14px 24px;
+    border-radius:14px;
+    font-size:15px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn-primary{
+    background:linear-gradient(135deg,var(--accent),#ff7b54);
+    color:white;
+}
+
+.btn-primary:hover{
+    transform:translateY(-3px);
+    box-shadow:0 14px 30px rgba(242,78,30,0.35);
+}
+
+/* DASHBOARD */
+
+.dashboard{
+    padding:3rem 0 5rem;
+}
+
+.dashboard-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:2rem;
+    margin-bottom:2.5rem;
+}
+
+.dashboard-badge{
+    display:inline-flex;
+    padding:10px 18px;
+    border-radius:999px;
+    background:rgba(0,210,255,0.12);
+    color:var(--primary);
+    font-weight:600;
+    margin-bottom:1rem;
+}
+
+.dashboard-title{
+    font-size:4rem;
+    line-height:1.1;
+    margin-bottom:1rem;
+}
+
+.dashboard-sub{
+    color:#66737a;
+    font-size:1.1rem;
+    line-height:1.8;
+}
+
+/* STATS */
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:1.5rem;
+    margin-bottom:4rem;
+}
+
+.stat-card{
+    background:var(--card-bg);
+    border-radius:24px;
+    padding:2rem;
+    box-shadow:var(--shadow);
+    transition:.3s;
+}
+
+.stat-card:hover{
+    transform:translateY(-8px);
+}
+
+.stat-card h2{
+    font-size:2.5rem;
+    color:var(--primary);
+    margin-bottom:10px;
+}
+
+/* SECTION */
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:2rem;
+}
+
+/* GRID */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:1.5rem;
+}
+
+/* CARD */
+
+.card{
+    background:var(--card-bg);
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+    transition:.4s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    box-shadow:var(--shadow-lg);
+}
+
+.card-image{
+    height:220px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:4rem;
+}
+
+.image-1{
+    background:linear-gradient(135deg,#ff9966,#ff5e62);
+}
+
+.image-2{
+    background:linear-gradient(135deg,#1A2A6C,#00D2FF);
+}
+
+.image-3{
+    background:linear-gradient(135deg,#ff7b54,#ffb199);
+}
+
+.card-body{
+    padding:1.5rem;
+}
+
+.card-body h3{
+    font-size:1.7rem;
+    margin-bottom:12px;
+}
+
+.card-body p{
+    color:#66737a;
+    line-height:1.8;
+}
+
+.trip-badge{
+    display:inline-flex;
+    padding:8px 14px;
+    border-radius:999px;
+    background:rgba(242,78,30,0.12);
+    color:var(--accent);
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:1rem;
+}
+
+/* MODAL */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.4);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-content{
+    width:90%;
+    max-width:500px;
+    background:white;
+    border-radius:24px;
+    padding:2rem;
+    box-shadow:var(--shadow-lg);
+}
+
+.modal-content h2{
+    margin-bottom:1.5rem;
+}
+
+.form-group{
+    margin-bottom:1rem;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+    width:100%;
+    padding:14px;
+    border-radius:14px;
+    border:1px solid #ddd;
+    font-size:15px;
+}
+
+.modal-actions{
+    display:flex;
+    gap:1rem;
+    margin-top:1rem;
+}
+
+.close-btn{
+    background:#ddd;
+    color:#333;
+}
+
+/* RESPONSIVE */
+
+.delete-btn{
+    margin-top:18px;
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:14px;
+    background:#ffe7e1;
+    color:#d6451b;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.delete-btn:hover{
+    background:#ffd6cc;
+}
+
+.form-group input{
+    width:100%;
+    padding:14px;
+    border-radius:14px;
+    border:1px solid #ddd;
+    font-size:15px;
+    outline:none;
+    transition:.3s;
+}
+
+.form-group input:focus{
+    border-color:var(--sky);
+    box-shadow:0 0 0 4px rgba(0,210,255,0.12);
+}
+
+@media(max-width:768px){
+
+    .dashboard-top{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .dashboard-title{
+        font-size:2.6rem;
+    }
+
+    .nav-links{
+        display:none;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="nav">
+
+    <div class="nav-inner">
+
+        <div class="logo">
+            Travel<span>oop</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html">Dashboard</a>
+            <a href="#">Trips</a>
+            <a href="#">Explore</a>
+            <a href="#">Budget</a>
+        </div>
+
+        <button class="btn btn-primary" id="openModalBtn">
+            + Add Trip
+        </button>
+
+    </div>
+
+</nav>
+
+<!-- DASHBOARD -->
+
+<section class="dashboard">
+
+    <div class="page">
+
+        <div class="dashboard-top">
+
+            <div>
+
+                <div class="dashboard-badge">
+                    Smart AI Travel Workspace
+                </div>
+
+                <h1 class="dashboard-title">
+                    Welcome Back, Traveler
+                </h1>
+
+                <p class="dashboard-sub">
+                    Manage your trips, itineraries and discover your next destination.
+                </p>
+
+            </div>
+
+            <button class="btn btn-primary" id="topAddBtn">
+                + Create New Trip
+            </button>
+
+        </div>
+
+        <!-- STATS -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+                <h2 id="tripCount">3</h2>
+                <p>Total Trips</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>28</h2>
+                <p>Countries Visited</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>₹2.4L</h2>
+                <p>Total Budget</p>
+            </div>
+
+            <div class="stat-card">
+                <h2>4.9★</h2>
+                <p>Traveler Rating</p>
+            </div>
+
+        </div>
+
+        <!-- TRIPS -->
+
+        <div class="section-header">
+            <h2>Upcoming Trips</h2>
+        </div>
+
+        <div class="grid" id="tripGrid">
+
+            <div class="card">
+
+                <div class="card-image" style="background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200') center/cover;"></div>
+
+                <div class="card-body">
+                    <div class="trip-badge">Active</div>
+                    <h3>Bali Paradise</h3>
+                    <p>Tropical beaches and luxury sunset adventures.</p>
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="card-image" style="background:url('https://images.unsplash.com/photo-1493558103817-58b2924bce98?w=1200') center/cover;"></div>
+
+                <div class="card-body">
+                    <div class="trip-badge">Upcoming</div>
+                    <h3>Tokyo Explorer</h3>
+                    <p>Discover futuristic cities and Japanese cuisine.</p>
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div class="card-image" style="background:url('https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=1200') center/cover;"></div>
+
+                <div class="card-body">
+                    <div class="trip-badge">Draft</div>
+                    <h3>Europe Tour</h3>
+                    <p>Explore Paris, Rome and Amsterdam.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- MODAL -->
+
+<div class="modal" id="tripModal">
+
+    <div class="modal-content">
+
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;">
+            <div>
+                <h2 style="margin-bottom:6px;">Plan Your Journey</h2>
+                <p style="color:#66737a;font-size:14px;">
+                    Select your route and add it instantly.
+                </p>
+            </div>
+
+            <img
+            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500"
+            style="width:90px;height:90px;object-fit:cover;border-radius:18px;box-shadow:var(--shadow);"
+            />
+        </div>
+
+        <div class="form-group">
+            <label>From</label>
+            <input 
+            type="text" 
+            id="tripOrigin" 
+            list="originSuggestions"
+            placeholder="Enter departure city"
+            >
+
+            <datalist id="originSuggestions">
+                <option value="New Delhi">
+                <option value="Mumbai">
+                <option value="London">
+                <option value="Tokyo">
+                <option value="Paris">
+                <option value="Dubai">
+                <option value="Singapore">
+            </datalist>
+        </div>
+
+        <div style="display:flex;justify-content:center;margin-bottom:1rem;">
+            <div style="width:60px;height:2px;background:linear-gradient(to right,var(--primary),var(--accent));border-radius:10px;"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Destination</label>
+            <input 
+            type="text" 
+            id="tripDestination" 
+            list="destinationSuggestions"
+            placeholder="Enter destination city"
+            >
+
+            <datalist id="destinationSuggestions">
+                <option value="Bali">
+                <option value="Paris">
+                <option value="Tokyo">
+                <option value="Rome">
+                <option value="Switzerland">
+                <option value="Maldives">
+                <option value="Amsterdam">
+            </datalist>
+        </div>
+
+        <div class="form-group">
+            <label>Travel Date</label>
+            <input type="date" id="tripDate">
+        </div>
+
+        <div class="modal-actions">
+
+            <button class="btn btn-primary" id="saveTripBtn">
+                Save Trip
+            </button>
+
+            <button class="btn close-btn" id="closeModalBtn">
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const modal = document.getElementById('tripModal');
+const openModalBtn = document.getElementById('openModalBtn');
+const topAddBtn = document.getElementById('topAddBtn');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const saveTripBtn = document.getElementById('saveTripBtn');
+const tripGrid = document.getElementById('tripGrid');
+const tripCount = document.getElementById('tripCount');
+
+let totalTrips = 3;
+
+function openModal(){
+    modal.classList.add('active');
+}
+
+function closeModal(){
+    modal.classList.remove('active');
+}
+
+openModalBtn.addEventListener('click', openModal);
+topAddBtn.addEventListener('click', openModal);
+closeModalBtn.addEventListener('click', closeModal);
+
+saveTripBtn.addEventListener('click', () => {
+
+    const origin = document.getElementById('tripOrigin').value;
+    const destination = document.getElementById('tripDestination').value;
+    const date = document.getElementById('tripDate').value;
+
+    const name = `${origin} → ${destination}`;
+    const description = `Trip from ${origin} to ${destination}`;
+
+    const coverImages = [
+        'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200',
+        'https://images.unsplash.com/photo-1493558103817-58b2924bce98?w=1200',
+        'https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=1200',
+        'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200',
+        'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=1200'
+    ];
+
+    const image = coverImages[Math.floor(Math.random() * coverImages.length)];
+
+    if(date.trim() === ''){
+        alert('Please select travel date');
+        return;
+    }
+
+    
+
+    const card = document.createElement('div');
+    card.classList.add('card');
+
+    card.innerHTML = `
+        <div class="card-image"
+        style="background:url('${image}') center/cover no-repeat; position:relative;">
+
+            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.55),transparent);"></div>
+
+            <div style="position:absolute;bottom:18px;left:18px;color:white;z-index:2;">
+                <div style="font-size:22px;font-weight:700;">${destination}</div>
+                <div style="font-size:14px;opacity:.85;">Premium Journey</div>
+            </div>
+
+        </div>
+
+        <div class="card-body">
+            <div class="trip-badge">New Trip</div>
+
+            <h3>${name}</h3>
+
+            <p style="margin-bottom:12px;">
+                ${description}
+            </p>
+
+            <div style="display:flex;flex-direction:column;gap:8px;color:#66737a;font-size:14px;margin-top:14px;">
+                <span>🛫 From: ${origin}</span>
+                <span>📍 Destination: ${destination}</span>
+                <span>📅 ${date}</span>
+            </div>
+
+            <button 
+            class="delete-btn"
+            onclick="deleteTrip(this)"
+            >Delete Trip</button>
+
+        </div>
+    `;
+
+    tripGrid.prepend(card);
+
+    totalTrips++;
+    tripCount.innerText = totalTrips;
+
+    document.getElementById('tripDate').value = '';
+
+    closeModal();
+
+});
+
+window.addEventListener('click', (e) => {
+    if(e.target === modal){
+        closeModal();
+    }
+});
+
+function deleteTrip(button){
+    const card = button.closest('.card');
+    card.remove();
+
+    totalTrips--;
+    tripCount.innerText = totalTrips;
+}
+
+</script>
+
+</body>
+</html>
+```
