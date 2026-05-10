@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelLoop | Trip Journal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Syne:wght@800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0b0e14;
+            --card: #161b22;
+            --accent: #d4ff3f;
+            --text: #ffffff;
+            --muted: #8b949e;
+            --danger: #ff5f5f;
+            --border: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { 
+            font-family: 'Outfit', sans-serif; 
+            background-color: var(--bg);
+            color: var(--text); 
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        /* Nav Header */
+        .journal-nav {
+            padding: 25px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            background: rgba(11, 14, 20, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
+        .brand span { color: var(--accent); }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--muted);
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-link:hover { color: var(--accent); }
+
+        .container { max-width: 800px; margin: 50px auto; padding: 0 20px; }
+
+        /* Typography */
+        h1 { font-family: 'Syne', sans-serif; font-size: 42px; margin-bottom: 10px; }
+        .subtitle { color: var(--muted); margin-bottom: 40px; }
+
+        /* Input Card */
+        .editor-card { 
+            background: var(--card); 
+            border-radius: 24px; 
+            padding: 30px; 
+            border: 1px solid var(--border); 
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        textarea {
+            width: 100%; 
+            background: rgba(255,255,255,0.03); 
+            border: 1px solid var(--border); 
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px; 
+            padding: 20px;
+            border-radius: 16px;
+            resize: none; 
+            outline: none;
+            line-height: 1.6; 
+            min-height: 130px;
+            transition: 0.3s;
+        }
+
+        textarea:focus { border-color: var(--accent); }
+
+        .editor-footer { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-top: 20px; 
+        }
+
+        .tag-select { 
+            background: var(--bg); 
+            color: var(--text);
+            border: 1px solid var(--border); 
+            padding: 10px 15px; 
+            border-radius: 10px; 
+            font-size: 13px;
+            outline: none;
+        }
+        
+        .btn-save { 
+            background: var(--accent); 
+            color: #000; 
+            border: none; 
+            padding: 12px 30px; 
+            border-radius: 12px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-save:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 255, 63, 0.3); }
+
+        /* Notes Display */
+        .note-card { 
+            background: var(--card); 
+            border-radius: 20px; 
+            padding: 25px; 
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+            transition: 0.3s;
+            animation: fadeIn 0.5s ease;
+        }
+        .note-card:hover { border-color: var(--accent); }
+
+        .note-header { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 15px;
+        }
+        .note-date { font-size: 12px; color: var(--muted); font-weight: 600; }
+        .note-tag { 
+            font-size: 10px; 
+            font-weight: 800; 
+            background: rgba(212, 255, 63, 0.1); 
+            color: var(--accent); 
+            padding: 4px 10px; 
+            border-radius: 6px;
+            text-transform: uppercase;
+        }
+
+        .note-body { font-size: 16px; line-height: 1.6; color: #d1d5db; }
+
+        .note-actions { margin-top: 20px; display: flex; gap: 20px; }
+        .action-btn { 
+            background: none; 
+            border: none; 
+            color: var(--muted); 
+            cursor: pointer; 
+            font-size: 13px; 
+            font-weight: 600; 
+            transition: 0.2s;
+        }
+        .action-btn:hover { color: var(--accent); }
+        .btn-del:hover { color: var(--danger); }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="journal-nav">
+        <div class="brand">Traveloop<span>.</span></div>
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> BACK TO HUB
+        </a>
+    </nav>
+
+    <div class="container">
+        <header>
+            <h1>Trip Journal</h1>
+            <p class="subtitle">Drafting memories and important travel notes.</p>
+        </header>
+
+        <div class="editor-card">
+            <textarea id="noteInput" placeholder="Store flight details, hotel addresses, or day logs..."></textarea>
+            <div class="editor-footer">
+                <select id="noteTag" class="tag-select">
+                    <option value="GENERAL">GENERAL</option>
+                    <option value="STAY">LODGING</option>
+                    <option value="ROUTE">TRANSPORT</option>
+                    <option value="FOOD">DINING</option>
+                </select>
+                <button class="btn-save" onclick="addNote()">SAVE NOTE</button>
+            </div>
+        </div>
+
+        <div id="notesFeed"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', loadNotes);
+
+        function addNote() {
+            const text = document.getElementById('noteInput').value;
+            const tag = document.getElementById('noteTag').value;
+            if (!text.trim()) return;
+
+            const note = {
+                id: Date.now(),
+                text: text,
+                tag: tag,
+                date: new Date().toLocaleDateString('en-US', { 
+                    month: 'short', day: 'numeric', year: 'numeric' 
+                })
+            };
+
+            const notes = JSON.parse(localStorage.getItem('tripNotes') || '[]');
+            notes.unshift(note);
+            localStorage.setItem('tripNotes', JSON.stringify(notes));
+            document.getElementById('noteInput').value = "";
+            loadNotes();
+        }
+
+        function loadNotes() {
+            const notes = JSON.parse(localStorage.getItem('tripNotes') || '[]');
+            const feed = document.getElementById('notesFeed');
+            
+            if(notes.length === 0) {
+                feed.innerHTML = `<p style="text-align:center; color:var(--muted); margin-top:20px;">No entries recorded yet.</p>`;
+                return;
+            }
+
+            feed.innerHTML = notes.map(note => `
+                <div class="note-card">
+                    <div class="note-header">
+                        <span class="note-date">${note.date}</span>
+                        <span class="note-tag">${note.tag}</span>
+                    </div>
+                    <div class="note-body">${note.text}</div>
+                    <div class="note-actions">
+                        <button class="action-btn" onclick="copyNote('${encodeURIComponent(note.text)}')">
+                            <i class="far fa-copy"></i> COPY
+                        </button>
+                        <button class="action-btn btn-del" onclick="deleteNote(${note.id})">
+                            <i class="far fa-trash-alt"></i> DELETE
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteNote(id) {
+            let notes = JSON.parse(localStorage.getItem('tripNotes') || '[]');
+            notes = notes.filter(n => n.id !== id);
+            localStorage.setItem('tripNotes', JSON.stringify(notes));
+            loadNotes();
+        }
+
+        function copyNote(text) {
+            navigator.clipboard.writeText(decodeURIComponent(text));
+            alert("Copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
